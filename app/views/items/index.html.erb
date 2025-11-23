@@ -1,23 +1,11 @@
-<!-- Tag Filters -->
-<div class="mb-8">
-  <div class="flex flex-wrap gap-2">
-    <%= link_to "All Items",
-        items_path,
-        class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{@selected_tag.nil? ? 'bg-lol-teal-600 text-white font-semibold' : 'bg-lol-blue-800 text-gray-300 hover:bg-lol-blue-700 hover:text-lol-teal-400'}" %>
+<%= render "items/search_form" %>
 
-    <% @all_tags.each do |tag| %>
-      <%= link_to tag,
-          items_path(tag: tag),
-          class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{@selected_tag == tag ? 'bg-lol-teal-600 text-white font-semibold' : 'bg-lol-blue-800 text-gray-300 hover:bg-lol-blue-700 hover:text-lol-teal-400'}" %>
-    <% end %>
-  </div>
+<div class="text-center text-lol-teal-500 mb-12">
+  <p class="text-sm"><%= @items.present? ? 'Select an item:' : 'Enter item name to search' %></p>
+  <p class="text-xs mt-2 text-gray-400"><%= @items.present? ? "Found #{@items.size} matches" : 'Search is case-insensitive and supports partial names' %></p>
 </div>
 
-<% if @items.any? %>
-  <!-- Item Count -->
-  <p class="text-sm text-gray-400 mb-4">
-    Showing <%= @items.count %> <%= @selected_tag ? "#{@selected_tag} " : "" %>item<%= @items.count == 1 ? '' : 's' %>
-  </p>
+<% if @items.present? %>
 
   <!-- Items Grid -->
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -50,10 +38,21 @@
     <% end %>
   </div>
 <% else %>
-  <!-- No Items Found -->
-  <div class="bg-lol-blue-800 rounded-lg shadow-lg p-8 text-center border border-lol-blue-700">
-    <p class="text-gray-300 mb-4">No items found<%= " in category '#{@selected_tag}'" if @selected_tag %>.</p>
-    <%= link_to "View All Items", items_path,
-        class: "cursor-pointer inline-block px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white rounded-lg transition-colors duration-200" %>
+  <!-- Placeholder when no search -->
+  <div class="opacity-50">
+    <!-- Sample Item Cards Skeleton -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <% 10.times do %>
+        <div class="bg-lol-blue-800 rounded-lg shadow-lg p-4 border-2 border-lol-gold-600/20 flex flex-col items-center">
+          <div class="w-16 h-16 mb-3 bg-gray-700 rounded-lg"></div>
+          <div class="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
+          <div class="h-3 bg-gray-700 rounded w-1/2"></div>
+        </div>
+      <% end %>
+    </div>
+
+    <p class="text-center text-lol-teal-600 mt-8 text-base">
+      Search for an item to see details
+    </p>
   </div>
 <% end %>

@@ -5,6 +5,20 @@ namespace :champions do
 
     client = LolDataFetcher::Client.new
 
+    # Fetch and store the latest patch version
+    begin
+      require 'net/http'
+      require 'json'
+      uri = URI('https://ddragon.leagueoflegends.com/api/versions.json')
+      response = Net::HTTP.get(uri)
+      versions = JSON.parse(response)
+      latest_version = versions.first
+      Setting.find_or_create_by(key: 'patch_version').update(value: latest_version)
+      puts "Updated patch version to: #{latest_version}"
+    rescue => e
+      puts "Warning: Could not fetch patch version: #{e.message}"
+    end
+
     # Fetch all champions (summary data)
     all_champions_response = client.champions.all
     champions_data = all_champions_response["data"]

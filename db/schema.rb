@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_23_093509) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_23_105045) do
   create_table "champions", force: :cascade do |t|
     t.string "champion_id", null: false
     t.string "name", null: false
@@ -44,5 +44,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_23_093509) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id", unique: true
     t.index ["name"], name: "index_items_on_name"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_settings_on_key", unique: true
   end
 end

@@ -23,6 +23,15 @@ class Item < ApplicationRecord
     }
   end
 
+  # Search items by name (case-insensitive, partial match, chainable with scopes)
+  def self.search(query)
+    if query.present?
+      where("name LIKE ?", "%#{sanitize_sql_like(query)}%").order(:name)
+    else
+      all.order(:name)
+    end
+  end
+
   # Filter items by tag (chainable with scopes)
   def self.by_tag(tag)
     scope = all
