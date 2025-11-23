@@ -33,55 +33,5 @@
     <% end %>
   </div>
 <% else %>
-  <!-- Skeleton Placeholder -->
-  <div class="opacity-50">
-    <!-- Champion Header Skeleton -->
-    <div class="bg-lol-blue-800 rounded-lg shadow-lg overflow-hidden mb-4 border border-lol-gold-600/20">
-      <div class="relative h-40 bg-gradient-to-br from-gray-700 to-gray-800"></div>
-
-      <div class="p-4">
-        <div class="flex gap-2 mb-3">
-          <span class="px-3 py-1 bg-gray-700 rounded-full text-sm w-20 h-6"></span>
-          <span class="px-3 py-1 bg-gray-700 rounded-full text-sm w-24 h-6"></span>
-        </div>
-        <div class="h-3 bg-gray-700 rounded w-3/4 mb-2"></div>
-        <div class="h-3 bg-gray-700 rounded w-full"></div>
-      </div>
-    </div>
-
-    <!-- Abilities Section Skeleton -->
-    <div class="bg-lol-blue-800 rounded-lg shadow-lg p-4 border border-lol-gold-600/20">
-      <div class="h-6 bg-gray-700 rounded w-32 mb-4"></div>
-
-      <!-- Passive Ability Skeleton -->
-      <div class="mb-4 p-4 bg-gray-800/30 rounded-lg border-l-4 border-gray-600">
-        <div class="flex items-start gap-3">
-          <div class="w-12 h-12 bg-gray-700 rounded-lg"></div>
-          <div class="flex-1">
-            <div class="h-5 bg-gray-700 rounded w-48 mb-2"></div>
-            <div class="h-3 bg-gray-700 rounded w-full"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Active Abilities Skeleton -->
-      <div class="space-y-3">
-        <% 2.times do %>
-          <div class="p-4 bg-gray-800/30 rounded-lg">
-            <div class="flex items-start gap-3">
-              <div class="w-12 h-12 bg-gray-700 rounded-lg"></div>
-              <div class="flex-1">
-                <div class="h-5 bg-gray-700 rounded w-40 mb-2"></div>
-                <div class="h-3 bg-gray-700 rounded w-full"></div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
-    <p class="text-center text-lol-teal-600 mt-6 text-base">
-    Search for a champion to see details
-    </p>
-  </div>
+  <%= render "shared/empty_state", type: "champion" %>
 <% end %>
