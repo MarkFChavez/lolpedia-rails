@@ -18,4 +18,11 @@ Rails.application.routes.draw do
 
   # Item routes
   resources :items, only: [ :index, :show ]
+
+  # Admin routes
+  namespace :admin do
+    get "/", to: "dashboard#index", as: :dashboard
+    post "/sync_champions", to: "sync#champions", as: :sync_champions
+    post "/sync_items", to: "sync#items", as: :sync_items
+  end
 end

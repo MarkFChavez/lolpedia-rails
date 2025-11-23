@@ -1,0 +1,79 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-4xl font-bold mb-8 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+    Admin Dashboard
+  </h1>
+
+  <!-- Stats Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <!-- Champions Stats -->
+    <div class="bg-lol-blue-800 rounded-lg shadow-lg p-6 border border-lol-blue-700">
+      <h2 class="text-2xl font-bold text-lol-teal-400 mb-4">Champions</h2>
+      <div class="space-y-2">
+        <p class="text-gray-300">
+          <span class="font-semibold">Total:</span>
+          <span class="text-lol-gold-400"><%= @champions_count %></span>
+        </p>
+        <p class="text-gray-300 text-sm">
+          <span class="font-semibold">Last Sync:</span>
+          <%= @last_champion_sync ? time_ago_in_words(@last_champion_sync) + " ago" : "Never" %>
+        </p>
+      </div>
+    </div>
+
+    <!-- Items Stats -->
+    <div class="bg-lol-blue-800 rounded-lg shadow-lg p-6 border border-lol-blue-700">
+      <h2 class="text-2xl font-bold text-lol-teal-400 mb-4">Items</h2>
+      <div class="space-y-2">
+        <p class="text-gray-300">
+          <span class="font-semibold">SR Purchasable:</span>
+          <span class="text-lol-gold-400"><%= @items_count %></span>
+        </p>
+        <p class="text-gray-300 text-sm">
+          <span class="font-semibold">Last Sync:</span>
+          <%= @last_item_sync ? time_ago_in_words(@last_item_sync) + " ago" : "Never" %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sync Actions -->
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg p-8 border border-lol-blue-700">
+    <h2 class="text-2xl font-bold mb-6 text-lol-gold-400">Data Synchronization</h2>
+
+    <div class="space-y-4">
+      <!-- Sync Champions -->
+      <div class="flex items-center justify-between p-4 bg-lol-blue-900/50 rounded-lg border border-lol-blue-700">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-200">Sync Champions</h3>
+          <p class="text-sm text-gray-400">Fetch all champions from Data Dragon API (~172 champions)</p>
+          <p class="text-xs text-yellow-400 mt-1">⚠️ This may take 1-2 minutes</p>
+        </div>
+        <%= button_to "Sync Champions",
+            admin_sync_champions_path,
+            method: :post,
+            form: { data: { turbo_confirm: "This will sync all champions from the API. Continue?" } },
+            class: "cursor-pointer px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-lol-teal-600/30" %>
+      </div>
+
+      <!-- Sync Items -->
+      <div class="flex items-center justify-between p-4 bg-lol-blue-900/50 rounded-lg border border-lol-blue-700">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-200">Sync Items</h3>
+          <p class="text-sm text-gray-400">Fetch all items from Data Dragon API (~640 items, 298 SR purchasable)</p>
+          <p class="text-xs text-yellow-400 mt-1">⚠️ This may take 2-3 minutes</p>
+        </div>
+        <%= button_to "Sync Items",
+            admin_sync_items_path,
+            method: :post,
+            form: { data: { turbo_confirm: "This will sync all items from the API. Continue?" } },
+            class: "cursor-pointer px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-lol-teal-600/30" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Site -->
+  <div class="mt-8">
+    <%= link_to "← Back to Site", root_path,
+        class: "cursor-pointer inline-block px-6 py-3 bg-lol-blue-800 hover:bg-lol-blue-700 text-gray-300 hover:text-lol-gold-400 rounded-lg transition-colors duration-200 border border-lol-blue-700" %>
+  </div>
+</div>
