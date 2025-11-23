@@ -45,7 +45,7 @@
   --color-red-700: oklch(0.45 0.22 25);
   --color-red-900: oklch(0.25 0.15 25);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 @variant dark (&:where(.dark, .dark *));
