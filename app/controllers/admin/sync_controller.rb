@@ -1,6 +1,8 @@
 class Admin::SyncController < AdminController
   def champions
     begin
+      load_rake_tasks
+
       # Clear the task to allow re-running
       Rake::Task["champions:sync"].reenable
 
@@ -15,6 +17,8 @@ class Admin::SyncController < AdminController
 
   def items
     begin
+      load_rake_tasks
+
       # Clear the task to allow re-running
       Rake::Task["items:sync"].reenable
 
@@ -25,5 +29,15 @@ class Admin::SyncController < AdminController
     rescue => e
       redirect_to admin_dashboard_path, alert: "Item sync failed: #{e.message}"
     end
+  end
+
+  private
+
+  def load_rake_tasks
+    # Only load tasks once
+    return if @tasks_loaded
+
+    Rails.application.load_tasks
+    @tasks_loaded = true
   end
 end
