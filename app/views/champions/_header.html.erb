@@ -1,8 +1,13 @@
-<h1 class="text-5xl font-bold text-center mb-4">
-  <%= link_to "League Directory", root_path, class: "cursor-pointer bg-gradient-to-r from-lol-gold-400 via-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent hover:from-lol-gold-500 hover:via-lol-gold-400 hover:to-lol-gold-500 transition-all duration-300" %>
+<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">
+  <%= link_to root_path, class: "cursor-pointer inline-flex items-center justify-center gap-2 md:gap-3" do %>
+    <%= image_tag "minion.png", alt: "Red Caster Minion", class: "w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex-shrink-0" %>
+    <span class="bg-gradient-to-r from-lol-gold-400 via-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent hover:from-lol-gold-500 hover:via-lol-gold-400 hover:to-lol-gold-500 transition-all duration-300">
+      League Directory
+    </span>
+  <% end %>
 </h1>
 
-<p class="text-center text-lg mb-8 text-gray-300">
+<p class="text-center text-base md:text-lg mb-6 md:mb-8 text-gray-300">
   Know your enemy, claim victory
   <span class="text-lol-gold-500 font-semibold">• Patch <%= current_patch_version %></span>
 </p>
