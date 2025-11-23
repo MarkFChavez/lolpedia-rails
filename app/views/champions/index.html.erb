@@ -1,0 +1,85 @@
+<div class="text-center text-gray-400 mb-12">
+  <p class="text-sm"><%= @matching_champions.present? ? 'Select a champion:' : 'Enter champion name to search' %></p>
+  <p class="text-xs mt-2"><%= @matching_champions.present? ? "Found #{@matching_champions.size} matches" : 'Search is case-insensitive and supports partial names' %></p>
+</div>
+
+<% if @matching_champions.present? %>
+  <!-- Champion Selection Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% @matching_champions.each do |champion| %>
+      <%= form_with url: search_champions_path, method: :get, class: "block" do |f| %>
+        <%= f.hidden_field :query, value: champion[:name] %>
+        <button type="submit" class="w-full text-left bg-gray-800 hover:bg-gray-700 rounded-lg shadow-lg p-6 transition-all duration-200 hover:scale-105 hover:shadow-cyan-900/50 border-2 border-transparent hover:border-cyan-600/50">
+          <div class="flex items-center gap-4 mb-3">
+            <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/champion/#{champion[:id]}.png",
+              alt: champion[:name],
+              class: "w-16 h-16 rounded-lg ring-2 ring-gray-600" %>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-gray-100 mb-1"><%= champion[:name] %></h3>
+              <p class="text-sm text-gray-400"><%= champion[:title] %></p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <% champion[:tags].each do |tag| %>
+              <span class="px-2 py-1 bg-blue-900/50 text-blue-200 rounded text-xs font-medium">
+                <%= tag %>
+              </span>
+            <% end %>
+          </div>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <!-- Skeleton Placeholder -->
+  <div class="opacity-40">
+    <!-- Champion Header Skeleton -->
+    <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-4">
+      <div class="relative h-40 bg-gray-700"></div>
+
+      <div class="p-4">
+        <div class="flex gap-2 mb-3">
+          <span class="px-3 py-1 bg-gray-700 rounded-full text-sm w-20 h-6"></span>
+          <span class="px-3 py-1 bg-gray-700 rounded-full text-sm w-24 h-6"></span>
+        </div>
+        <div class="h-3 bg-gray-700 rounded w-3/4 mb-2"></div>
+        <div class="h-3 bg-gray-700 rounded w-full"></div>
+      </div>
+    </div>
+
+    <!-- Abilities Section Skeleton -->
+    <div class="bg-gray-800 rounded-lg shadow-lg p-4">
+      <div class="h-6 bg-gray-700 rounded w-32 mb-4"></div>
+
+      <!-- Passive Ability Skeleton -->
+      <div class="mb-4 p-4 bg-gray-700/30 rounded-lg border-l-4 border-gray-600">
+        <div class="flex items-start gap-3">
+          <div class="w-12 h-12 bg-gray-700 rounded-lg"></div>
+          <div class="flex-1">
+            <div class="h-5 bg-gray-700 rounded w-48 mb-2"></div>
+            <div class="h-3 bg-gray-700 rounded w-full"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Abilities Skeleton -->
+      <div class="space-y-3">
+        <% 2.times do %>
+          <div class="p-4 bg-gray-700/30 rounded-lg">
+            <div class="flex items-start gap-3">
+              <div class="w-12 h-12 bg-gray-700 rounded-lg"></div>
+              <div class="flex-1">
+                <div class="h-5 bg-gray-700 rounded w-40 mb-2"></div>
+                <div class="h-3 bg-gray-700 rounded w-full"></div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <p class="text-center text-gray-500 mt-6 text-base">
+    Search for a champion to see details
+    </p>
+  </div>
+<% end %>

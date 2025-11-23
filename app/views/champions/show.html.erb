@@ -1,0 +1,84 @@
+<% if @champion %>
+  <!-- Champion Header -->
+  <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
+    <!-- Champion Splash Art -->
+    <div class="relative h-96 overflow-hidden">
+      <%= image_tag "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/#{@champion['id']}_0.jpg",
+          alt: @champion['name'],
+          class: "w-full h-full object-cover" %>
+    </div>
+
+    <!-- Champion Tags and Info -->
+    <div class="p-8">
+      <div class="flex gap-2 mb-4">
+        <% @champion['tags'].each do |tag| %>
+          <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm font-medium">
+            <%= tag %>
+          </span>
+        <% end %>
+      </div>
+      <p class="text-gray-300 leading-relaxed">
+        <%= @champion['blurb'] %>
+      </p>
+    </div>
+  </div>
+
+  <!-- Abilities Section -->
+  <div class="bg-gray-800 rounded-lg shadow-lg p-8">
+    <h2 class="text-3xl font-bold mb-6 text-gray-100">Abilities</h2>
+
+    <!-- Passive Ability -->
+    <% if @champion['passive'] %>
+      <div class="mb-8 p-6 bg-gradient-to-r from-purple-600/30 to-purple-500/20 rounded-lg border-l-4 border-purple-400 shadow-lg shadow-purple-900/50">
+        <div class="flex items-start gap-4">
+          <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/passive/#{@champion['passive']['image']['full']}",
+              alt: @champion['passive']['name'],
+              class: "w-16 h-16 rounded-lg ring-2 ring-purple-400/50" %>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-3 py-1 bg-purple-500 text-white text-sm font-bold rounded shadow-md">PASSIVE</span>
+              <h3 class="text-xl font-bold text-purple-100"><%= @champion['passive']['name'] %></h3>
+            </div>
+            <p class="text-gray-200"><%= @champion['passive']['description'] %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Active Abilities (Q, W, E, R) -->
+    <% if @champion['spells'] %>
+      <div class="space-y-6">
+        <% @champion['spells'].each_with_index do |spell, index| %>
+          <% ability_key = ['Q', 'W', 'E', 'R'][index] %>
+          <% is_ultimate = ability_key == 'R' %>
+          <div class="p-6 bg-gray-700/50 rounded-lg <%= 'ring-1 ring-yellow-500/30' if is_ultimate %>">
+            <div class="flex items-start gap-4">
+              <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/spell/#{spell['image']['full']}",
+                  alt: spell['name'],
+                  class: "w-16 h-16 rounded-lg #{'ring-2 ring-yellow-400/50' if is_ultimate}" %>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="px-3 py-1.5 <%= is_ultimate ? 'bg-gradient-to-br from-yellow-500 to-orange-600' : 'bg-cyan-600' %> text-white text-sm font-bold rounded-md shadow-md min-w-[2.5rem] text-center">
+                    <%= ability_key %>
+                  </span>
+                  <h3 class="text-xl font-bold <%= is_ultimate ? 'text-yellow-100' : 'text-gray-100' %>"><%= spell['name'] %></h3>
+                </div>
+                <p class="text-gray-200 mb-2"><%= spell['description'] %></p>
+                <% if spell['cooldownBurn'] && spell['cooldownBurn'] != "0" %>
+                  <p class="text-sm text-gray-300">
+                    <span class="font-semibold">Cooldown:</span> <%= spell['cooldownBurn'] %>s
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+    <p class="text-gray-300">No champion data available.</p>
+    <%= link_to "Search for a champion", root_path, class: "mt-4 inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg" %>
+  </div>
+<% end %>
