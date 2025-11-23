@@ -15,8 +15,21 @@ class Champion < ApplicationRecord
     }
   end
 
-  # Search champions by name (case-insensitive, partial match)
+  # Search champions by name or ability names (case-insensitive, partial match)
   def self.search(query)
-    where("name LIKE ?", "%#{sanitize_sql_like(query)}%").order(:name)
+    return none if query.blank?
+
+    sanitized_query = "%#{sanitize_sql_like(query)}%"
+
+    where(<<-SQL, sanitized_query, sanitized_query, sanitized_query)
+      name LIKE ?
+      OR json_extract(passive_data, '$.name') LIKE ?
+      OR EXISTS (
+        SELECT 1
+        FROM json_each(spells_data)
+        WHERE json_extract(json_each.value, '$.name') LIKE ?
+      )
+    SQL
+    .order(:name)
   end
 end

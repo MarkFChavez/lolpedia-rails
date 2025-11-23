@@ -16,7 +16,6 @@ class ItemsController < ApplicationController
         case matching_items.size
         when 0
           # No matches found
-          flash.now[:alert] = "No items found matching '#{params[:query]}'. Please try again."
           render :index
         when 1
           # Exactly one match - show it automatically
