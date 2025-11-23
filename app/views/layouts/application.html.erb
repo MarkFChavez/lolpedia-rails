@@ -31,14 +31,13 @@
       <div class="py-12 px-4">
         <div class="max-w-4xl mx-auto">
           <%= render "champions/header" %>
+          <%= render "shared/nav" %>
 
           <% if flash[:alert] %>
             <div class="mb-6 p-4 bg-red-900 border border-red-700 text-red-200 rounded-lg">
               <%= flash[:alert] %>
             </div>
           <% end %>
-
-          <%= render "champions/search_form" %>
 
           <%= yield %>
         </div>

@@ -8,16 +8,10 @@ class ChampionsController < ApplicationController
   def search
     if params[:query].present?
       begin
-        query = params[:query].downcase.strip
+        query = params[:query].strip
 
-        # Get all champions for partial matching
-        all_champions = @client.champions.all
-        champions_data = all_champions["data"]
-
-        # Find champions that match the query (partial or exact)
-        matching_champions = champions_data.select do |name, _data|
-          name.downcase.include?(query)
-        end
+        # Search champions from database
+        matching_champions = Champion.search(query)
 
         case matching_champions.size
         when 0
@@ -26,16 +20,14 @@ class ChampionsController < ApplicationController
           render :index
         when 1
           # Exactly one match - show it automatically
-          champion_key = matching_champions.keys.first
-          # Get detailed data for this champion
-          result = @client.champions.find(champion_key)
-          @champion = result["data"][champion_key]
+          champion = matching_champions.first
+          @champion = champion.to_api_format
           render :show
         else
           # Multiple matches - let user choose
-          @matching_champions = matching_champions.map do |key, data|
-            { id: data["id"], name: data["name"], title: data["title"], tags: data["tags"] }
-          end.sort_by { |c| c[:name] }
+          @matching_champions = matching_champions.map do |champion|
+            { id: champion.champion_id, name: champion.name, title: champion.title, tags: champion.tags }
+          end
           render :index
         end
       rescue => e

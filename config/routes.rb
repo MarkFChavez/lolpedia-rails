@@ -15,4 +15,7 @@ Rails.application.routes.draw do
   # Champion routes
   get "champions/search", to: "champions#search", as: :search_champions
   resources :champions, only: [ :index, :show ]
+
+  # Item routes
+  resources :items, only: [ :index, :show ]
 end

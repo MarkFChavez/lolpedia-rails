@@ -1,0 +1,177 @@
+<% if @item %>
+  <!-- Item Header -->
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg shadow-lol-gold-600/10 overflow-hidden mb-8 border border-lol-blue-700">
+    <div class="p-8">
+      <div class="flex items-start gap-6 mb-6">
+        <!-- Item Icon -->
+        <div class="flex-shrink-0">
+          <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/item/#{@item['image']['full']}",
+              alt: @item['name'],
+              class: "w-24 h-24 rounded-lg ring-2 ring-lol-gold-500/50" %>
+        </div>
+
+        <!-- Item Info -->
+        <div class="flex-1">
+          <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+            <%= @item['name'] %>
+          </h1>
+
+          <!-- Tags -->
+          <% if @item['tags'].present? %>
+            <div class="flex gap-2 mb-4">
+              <% @item['tags'].each do |tag| %>
+                <span class="px-3 py-1 bg-lol-teal-600/30 text-lol-teal-400 rounded-full text-sm font-medium border border-lol-teal-600/50">
+                  <%= tag %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Gold Cost -->
+          <% if @item['gold'] && @item['gold']['total'] %>
+            <div class="flex items-center gap-4 text-lg mb-4">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400">Cost:</span>
+                <span class="font-bold text-lol-gold-400"><%= @item['gold']['total'] %></span>
+                <svg class="w-4 h-4 text-lol-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                  <circle cx="10" cy="10" r="8" />
+                </svg>
+              </div>
+
+              <% if @item['gold']['sell'] %>
+                <div class="flex items-center gap-2">
+                  <span class="text-gray-400">Sells for:</span>
+                  <span class="font-semibold text-gray-300"><%= @item['gold']['sell'] %></span>
+                  <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" />
+                  </svg>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Plaintext Description -->
+          <% if @item['plaintext'].present? %>
+            <p class="text-lol-teal-400 italic mb-2">
+              <%= @item['plaintext'] %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Full Description -->
+      <% if @item['description'].present? %>
+        <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
+          <p class="text-gray-300 leading-relaxed">
+            <%= raw @item['description'].gsub(/<br>/, '<br/>') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <% if @item['stats'] && @item['stats'].any? %>
+    <div class="bg-lol-blue-800 rounded-lg shadow-lg shadow-lol-gold-600/10 p-8 mb-8 border border-lol-blue-700">
+      <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+        Stats
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <% @item['stats'].each do |stat_key, stat_value| %>
+          <% next if stat_value.to_f == 0 %>
+          <div class="flex justify-between items-center bg-lol-blue-900/50 rounded-lg p-3 border border-lol-blue-700">
+            <span class="text-gray-300 capitalize">
+              <%= stat_key.gsub(/([A-Z])/, ' \1').strip.gsub('Flat', '').strip %>:
+            </span>
+            <span class="font-bold text-lol-teal-400">
+              <%= stat_value > 0 ? "+#{stat_value}" : stat_value %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Build Paths Section -->
+  <% if (@item['from'] && @item['from'].any?) || (@item['into'] && @item['into'].any?) %>
+    <div class="bg-lol-blue-800 rounded-lg shadow-lg shadow-lol-gold-600/10 p-8 border border-lol-blue-700">
+      <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+        Build Paths
+      </h2>
+
+      <div class="space-y-6">
+        <!-- Builds From -->
+        <% if @item['from'] && @item['from'].any? %>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-300 mb-3">Builds From:</h3>
+            <div class="flex flex-wrap gap-3">
+              <% @item['from'].each do |component_id| %>
+                <% component_item = Item.find_by(item_id: component_id) %>
+                <% if component_item %>
+                  <%= link_to item_path(component_id),
+                      class: "cursor-pointer group bg-lol-blue-900/50 hover:bg-lol-blue-700 rounded-lg p-3 transition-all duration-200 hover:scale-105 border border-lol-blue-700 hover:border-lol-gold-500/50 flex items-center gap-3" do %>
+                    <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/item/#{component_item.image_full}",
+                        alt: component_item.name,
+                        class: "w-12 h-12 rounded" %>
+                    <div>
+                      <p class="text-sm font-medium text-gray-200 group-hover:text-lol-gold-400">
+                        <%= component_item.name %>
+                      </p>
+                      <% if component_item.gold && component_item.gold['total'] %>
+                        <p class="text-xs text-lol-gold-400">
+                          <%= component_item.gold['total'] %>g
+                        </p>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Builds Into -->
+        <% if @item['into'] && @item['into'].any? %>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-300 mb-3">Builds Into:</h3>
+            <div class="flex flex-wrap gap-3">
+              <% @item['into'].each do |upgrade_id| %>
+                <% upgrade_item = Item.find_by(item_id: upgrade_id) %>
+                <% if upgrade_item %>
+                  <%= link_to item_path(upgrade_id),
+                      class: "cursor-pointer group bg-lol-blue-900/50 hover:bg-lol-blue-700 rounded-lg p-3 transition-all duration-200 hover:scale-105 border border-lol-blue-700 hover:border-lol-gold-500/50 flex items-center gap-3" do %>
+                    <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/item/#{upgrade_item.image_full}",
+                        alt: upgrade_item.name,
+                        class: "w-12 h-12 rounded" %>
+                    <div>
+                      <p class="text-sm font-medium text-gray-200 group-hover:text-lol-gold-400">
+                        <%= upgrade_item.name %>
+                      </p>
+                      <% if upgrade_item.gold && upgrade_item.gold['total'] %>
+                        <p class="text-xs text-lol-gold-400">
+                          <%= upgrade_item.gold['total'] %>g
+                        </p>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Back to Items Link -->
+  <div class="mt-8">
+    <%= link_to "← Back to All Items", items_path,
+        class: "cursor-pointer inline-block px-6 py-3 bg-lol-blue-800 hover:bg-lol-blue-700 text-gray-300 hover:text-lol-gold-400 rounded-lg transition-colors duration-200 border border-lol-blue-700" %>
+  </div>
+<% else %>
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg p-8 text-center border border-lol-blue-700">
+    <p class="text-gray-300">No item data available.</p>
+    <%= link_to "View all items", items_path,
+        class: "cursor-pointer mt-4 inline-block px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white rounded-lg transition-colors duration-200" %>
+  </div>
+<% end %>

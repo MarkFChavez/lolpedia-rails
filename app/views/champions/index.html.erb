@@ -1,3 +1,5 @@
+<%= render "champions/search_form" %>
+
 <div class="text-center text-lol-teal-500 mb-12">
   <p class="text-sm"><%= @matching_champions.present? ? 'Select a champion:' : 'Enter champion name to search' %></p>
   <p class="text-xs mt-2 text-gray-400"><%= @matching_champions.present? ? "Found #{@matching_champions.size} matches" : 'Search is case-insensitive and supports partial names' %></p>
@@ -9,7 +11,7 @@
     <% @matching_champions.each do |champion| %>
       <%= form_with url: search_champions_path, method: :get, class: "block" do |f| %>
         <%= f.hidden_field :query, value: champion[:name] %>
-        <button type="submit" class="w-full text-left bg-lol-blue-800 hover:bg-lol-blue-700 rounded-lg shadow-lg p-6 transition-all duration-200 hover:scale-105 hover:shadow-lol-gold-600/30 border-2 border-lol-blue-700 hover:border-lol-gold-500/50">
+        <button type="submit" class="cursor-pointer w-full text-left bg-lol-blue-800 hover:bg-lol-blue-700 rounded-lg shadow-lg p-6 transition-all duration-200 hover:scale-105 hover:shadow-lol-gold-600/30 border-2 border-lol-blue-700 hover:border-lol-gold-500/50">
           <div class="flex items-center gap-4 mb-3">
             <%= image_tag "https://ddragon.leagueoflegends.com/cdn/15.23.1/img/champion/#{champion[:id]}.png",
               alt: champion[:name],

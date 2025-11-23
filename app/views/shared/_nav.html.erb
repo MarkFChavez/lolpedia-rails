@@ -1,0 +1,10 @@
+<nav class="border-b border-lol-blue-700 bg-lol-blue-900/50 mb-8">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="flex gap-6 py-4">
+      <%= link_to "Home", root_path,
+          class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{current_page?(root_path) ? 'bg-lol-gold-600/30 text-lol-gold-400 font-semibold' : 'text-gray-300 hover:text-lol-gold-400 hover:bg-lol-blue-800/50'}" %>
+      <%= link_to "Items", items_path,
+          class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{controller_name == 'items' ? 'bg-lol-gold-600/30 text-lol-gold-400 font-semibold' : 'text-gray-300 hover:text-lol-gold-400 hover:bg-lol-blue-800/50'}" %>
+    </div>
+  </div>
+</nav>
