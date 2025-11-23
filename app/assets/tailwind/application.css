@@ -45,6 +45,26 @@
   --color-red-700: oklch(0.45 0.22 25);
   --color-red-900: oklch(0.25 0.15 25);
 
+  /* League of Legends Official Colors */
+  /* Gold - for headers, titles, accents */
+  --color-lol-gold-400: oklch(0.75 0.12 85);
+  --color-lol-gold-500: oklch(0.68 0.12 85);
+  --color-lol-gold-600: oklch(0.45 0.08 85);
+
+  /* Teal - for interactive elements and accents */
+  --color-lol-teal-400: oklch(0.8 0.15 190);
+  --color-lol-teal-500: oklch(0.75 0.15 190);
+  --color-lol-teal-600: oklch(0.65 0.13 190);
+
+  /* Dark Blue - for backgrounds */
+  --color-lol-blue-950: oklch(0.06 0.03 250);
+  --color-lol-blue-900: oklch(0.12 0.05 250);
+  --color-lol-blue-800: oklch(0.15 0.02 250);
+  --color-lol-blue-700: oklch(0.2 0.03 250);
+
+  /* Hextech Blue - for highlights */
+  --color-lol-hextech: oklch(0.6 0.15 230);
+
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
