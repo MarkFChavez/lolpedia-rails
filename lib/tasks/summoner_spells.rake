@@ -3,34 +3,20 @@ namespace :summoner_spells do
   task sync: :environment do
     puts "Starting summoner spell synchronization..."
 
-    require 'net/http'
-    require 'json'
+    client = LolDataFetcher::Client.new
 
     # Fetch and store the latest patch version
-    latest_version = nil
     begin
-      uri = URI('https://ddragon.leagueoflegends.com/api/versions.json')
-      response = Net::HTTP.get(uri)
-      versions = JSON.parse(response)
-      latest_version = versions.first
+      latest_version = client.versions.latest
       Setting.find_or_create_by(key: 'patch_version').update(value: latest_version)
       puts "Updated patch version to: #{latest_version}"
     rescue => e
       puts "Warning: Could not fetch patch version: #{e.message}"
-      # Fallback to stored version
-      latest_version = Setting.find_by(key: 'patch_version')&.value || "15.23.1"
     end
 
-    # Fetch all summoner spells directly from Data Dragon API
-    begin
-      uri = URI("https://ddragon.leagueoflegends.com/cdn/#{latest_version}/data/en_US/summoner.json")
-      response = Net::HTTP.get(uri)
-      all_spells_response = JSON.parse(response)
-      spells_data = all_spells_response["data"]
-    rescue => e
-      puts "Error fetching summoner spells: #{e.message}"
-      return
-    end
+    # Fetch all summoner spells using the gem
+    all_spells_response = client.summoner_spells.all
+    spells_data = all_spells_response["data"]
 
     created_count = 0
     updated_count = 0

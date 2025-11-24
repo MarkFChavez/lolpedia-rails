@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/MarkFChavez/lol_data_fetcher-ruby.git
-  revision: 0260fdae42915407b6f0e7b37f3d2a493e45cbfe
+  revision: 97089b2508eb5fbd5d30355e95faf0b8e5c32cab
   specs:
-    lol_data_fetcher (0.3.0)
+    lol_data_fetcher (0.4.0)
       faraday (~> 2.0)
       faraday-retry (~> 2.0)
       thor (~> 1.3)
