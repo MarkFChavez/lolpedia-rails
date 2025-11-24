@@ -1,0 +1,38 @@
+<div class="text-center text-lol-teal-500 mb-12">
+  <h1 class="text-3xl font-bold mb-4">Summoner Spells</h1>
+  <p class="text-sm"><%= @summoner_spells.present? ? "Classic Mode Summoner Spells (#{@summoner_spells.size})" : 'No summoner spells available' %></p>
+</div>
+
+<% if @summoner_spells.present? %>
+  <!-- Summoner Spells Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @summoner_spells.each do |spell| %>
+      <%= link_to summoner_spell_path(spell.spell_id),
+          class: "cursor-pointer group bg-lol-blue-800 hover:bg-lol-blue-700 rounded-lg shadow-lg p-4 transition-all duration-200 hover:scale-105 hover:shadow-lol-gold-600/30 border-2 border-lol-blue-700 hover:border-lol-gold-500/50" do %>
+
+        <div class="flex items-start gap-4">
+          <!-- Spell Icon -->
+          <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden ring-2 ring-lol-blue-600 group-hover:ring-lol-gold-500/50 transition-all">
+            <%= image_tag ddragon_url("img/spell/#{spell.image_full}"),
+                alt: spell.name,
+                class: "w-full h-full object-cover" %>
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <!-- Spell Name -->
+            <h3 class="text-base font-semibold text-gray-200 group-hover:text-lol-gold-400 transition-colors mb-2">
+              <%= spell.name %>
+            </h3>
+
+            <!-- Spell Description -->
+            <p class="text-xs text-gray-400 line-clamp-2">
+              <%= spell.description %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <%= render "shared/empty_state", type: "summoner_spell" %>
+<% end %>

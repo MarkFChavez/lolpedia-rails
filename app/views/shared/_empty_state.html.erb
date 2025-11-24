@@ -1,13 +1,31 @@
 <%
-  # Empty state component for champions and items pages
+  # Empty state component for champions, items, and summoner spells pages
   # Usage: render "shared/empty_state", type: "champion"
   #        render "shared/empty_state", type: "item"
+  #        render "shared/empty_state", type: "summoner_spell"
 
   display_type = local_assigns[:type] || "champion"
-  title = display_type == "champion" ? "Discover Champions" : "Discover Items"
-  subtitle = display_type == "champion" ?
-    "Search for any champion to view their abilities, stats, and lore" :
-    "Search for any item to view stats, build paths, and gold costs"
+  title = case display_type
+          when "champion"
+            "Discover Champions"
+          when "item"
+            "Discover Items"
+          when "summoner_spell"
+            "No Summoner Spells Available"
+          else
+            "Discover Champions"
+          end
+  subtitle = case display_type
+             when "champion"
+               "Search for any champion to view their abilities, stats, and lore"
+             when "item"
+               "Search for any item to view stats, build paths, and gold costs"
+             when "summoner_spell"
+               "Summoner spell data has not been synced yet. Please contact an administrator."
+             else
+               "Search for any champion to view their abilities, stats, and lore"
+             end
+  show_search_hint = display_type != "summoner_spell"
 %>
 
 <div class="flex items-center justify-center min-h-[500px] px-4 py-12">
@@ -55,12 +73,14 @@
     </div>
 
     <!-- Call to action -->
-    <div class="inline-flex items-center gap-2 px-6 py-3 bg-lol-blue-800/50 border border-lol-gold-600/30 rounded-lg">
-      <svg class="w-5 h-5 text-lol-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-      </svg>
-      <span class="text-lol-teal-500 font-medium">Use the search bar above to get started</span>
-    </div>
+    <% if show_search_hint %>
+      <div class="inline-flex items-center gap-2 px-6 py-3 bg-lol-blue-800/50 border border-lol-gold-600/30 rounded-lg">
+        <svg class="w-5 h-5 text-lol-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+        <span class="text-lol-teal-500 font-medium">Use the search bar above to get started</span>
+      </div>
+    <% end %>
 
     <!-- Subtle background pattern -->
     <div class="absolute inset-0 -z-10 overflow-hidden opacity-5">

@@ -20,10 +20,14 @@ Rails.application.routes.draw do
   get "items/search", to: "items#search", as: :search_items
   resources :items, only: [ :index, :show ]
 
+  # Summoner spell routes
+  resources :summoner_spells, only: [ :index, :show ]
+
   # Admin routes
   namespace :admin do
     get "/", to: "dashboard#index", as: :dashboard
     post "/sync_champions", to: "sync#champions", as: :sync_champions
     post "/sync_items", to: "sync#items", as: :sync_items
+    post "/sync_summoner_spells", to: "sync#summoner_spells", as: :sync_summoner_spells
   end
 end

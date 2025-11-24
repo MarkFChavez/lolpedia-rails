@@ -1,0 +1,101 @@
+<% if @spell %>
+  <!-- Spell Header -->
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg shadow-lol-gold-600/10 overflow-hidden mb-8 border border-lol-blue-700">
+    <div class="p-4 md:p-6 lg:p-8">
+      <div class="flex flex-col md:flex-row items-start gap-6 mb-6">
+        <!-- Spell Icon -->
+        <div class="flex-shrink-0">
+          <%= image_tag ddragon_url("img/spell/#{@spell[:image][:full]}"),
+              alt: @spell[:name],
+              class: "w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-lg ring-2 ring-lol-gold-500/50" %>
+        </div>
+
+        <!-- Spell Info -->
+        <div class="flex-1">
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+            <%= @spell[:name] %>
+          </h1>
+
+          <!-- Description -->
+          <p class="text-gray-300 text-base leading-relaxed">
+            <%= @spell[:description] %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg shadow-lol-gold-600/10 p-4 md:p-6 lg:p-8 mb-8 border border-lol-blue-700">
+    <h2 class="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-lol-gold-500 to-lol-gold-400 bg-clip-text text-transparent">
+      Spell Details
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Cooldown -->
+      <% if @spell[:cooldown] && @spell[:cooldown].any? %>
+        <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
+          <span class="text-gray-400 block mb-2">Cooldown:</span>
+          <span class="font-bold text-lol-teal-400 text-lg">
+            <%= @spell[:cooldown].first %>s
+          </span>
+        </div>
+      <% end %>
+
+      <!-- Range -->
+      <% if @spell[:range] && @spell[:range].any? && @spell[:range].first.to_i > 0 %>
+        <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
+          <span class="text-gray-400 block mb-2">Range:</span>
+          <span class="font-bold text-lol-teal-400 text-lg">
+            <%= @spell[:range].first %>
+          </span>
+        </div>
+      <% end %>
+
+      <!-- Required Level -->
+      <% if @spell[:summonerLevel] %>
+        <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
+          <span class="text-gray-400 block mb-2">Required Level:</span>
+          <span class="font-bold text-lol-teal-400 text-lg">
+            <%= @spell[:summonerLevel] %>
+          </span>
+        </div>
+      <% end %>
+
+      <!-- Spell Key -->
+      <% if @spell[:key] %>
+        <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
+          <span class="text-gray-400 block mb-2">Spell Key:</span>
+          <span class="font-bold text-lol-teal-400 text-lg">
+            <%= @spell[:key] %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Available Modes -->
+    <% if @spell[:modes] && @spell[:modes].any? %>
+      <div class="mt-6">
+        <h3 class="text-lg font-semibold text-gray-300 mb-3">Available in:</h3>
+        <div class="flex flex-wrap gap-2">
+          <% @spell[:modes].each do |mode| %>
+            <span class="px-3 py-1 bg-lol-teal-600/30 text-lol-teal-400 rounded-full text-sm font-medium border border-lol-teal-600/50">
+              <%= mode %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Back to Summoner Spells Link -->
+  <div class="mt-8">
+    <%= link_to "← Back to All Summoner Spells", summoner_spells_path,
+        class: "cursor-pointer inline-block px-6 py-3 bg-lol-blue-800 hover:bg-lol-blue-700 text-gray-300 hover:text-lol-gold-400 rounded-lg transition-colors duration-200 border border-lol-blue-700" %>
+  </div>
+<% else %>
+  <div class="bg-lol-blue-800 rounded-lg shadow-lg p-8 text-center border border-lol-blue-700">
+    <p class="text-gray-300">No summoner spell data available.</p>
+    <%= link_to "View all summoner spells", summoner_spells_path,
+        class: "cursor-pointer mt-4 inline-block px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white rounded-lg transition-colors duration-200" %>
+  </div>
+<% end %>

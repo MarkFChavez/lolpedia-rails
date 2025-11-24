@@ -5,6 +5,8 @@
           class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{controller_name == 'champions' ? 'bg-lol-gold-600/30 text-lol-gold-400 font-semibold' : 'text-gray-300 hover:text-lol-gold-400 hover:bg-lol-blue-800/50'}" %>
       <%= link_to "Items", items_path,
           class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{controller_name == 'items' ? 'bg-lol-gold-600/30 text-lol-gold-400 font-semibold' : 'text-gray-300 hover:text-lol-gold-400 hover:bg-lol-blue-800/50'}" %>
+      <%= link_to "Summoner Spells", summoner_spells_path,
+          class: "cursor-pointer px-4 py-2 rounded-lg transition-colors duration-200 #{controller_name == 'summoner_spells' ? 'bg-lol-gold-600/30 text-lol-gold-400 font-semibold' : 'text-gray-300 hover:text-lol-gold-400 hover:bg-lol-blue-800/50'}" %>
     </div>
   </div>
 </nav>

@@ -31,6 +31,22 @@ class Admin::SyncController < AdminController
     end
   end
 
+  def summoner_spells
+    begin
+      load_rake_tasks
+
+      # Clear the task to allow re-running
+      Rake::Task["summoner_spells:sync"].reenable
+
+      # Run the sync task
+      Rake::Task["summoner_spells:sync"].invoke
+
+      redirect_to admin_dashboard_path, notice: "Summoner spells synced successfully! Total: #{SummonerSpell.count}"
+    rescue => e
+      redirect_to admin_dashboard_path, alert: "Summoner spell sync failed: #{e.message}"
+    end
+  end
+
   private
 
   def load_rake_tasks

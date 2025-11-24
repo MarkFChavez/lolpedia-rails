@@ -4,7 +4,7 @@
   </h1>
 
   <!-- Stats Overview -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Champions Stats -->
     <div class="bg-lol-blue-800 rounded-lg shadow-lg p-6 border border-lol-blue-700">
       <h2 class="text-2xl font-bold text-lol-teal-400 mb-4">Champions</h2>
@@ -31,6 +31,21 @@
         <p class="text-gray-300 text-sm">
           <span class="font-semibold">Last Sync:</span>
           <%= @last_item_sync ? time_ago_in_words(@last_item_sync) + " ago" : "Never" %>
+        </p>
+      </div>
+    </div>
+
+    <!-- Summoner Spells Stats -->
+    <div class="bg-lol-blue-800 rounded-lg shadow-lg p-6 border border-lol-blue-700">
+      <h2 class="text-2xl font-bold text-lol-teal-400 mb-4">Spells</h2>
+      <div class="space-y-2">
+        <p class="text-gray-300">
+          <span class="font-semibold">Total:</span>
+          <span class="text-lol-gold-400"><%= @summoner_spells_count %></span>
+        </p>
+        <p class="text-gray-300 text-sm">
+          <span class="font-semibold">Last Sync:</span>
+          <%= @last_summoner_spell_sync ? time_ago_in_words(@last_summoner_spell_sync) + " ago" : "Never" %>
         </p>
       </div>
     </div>
@@ -81,6 +96,20 @@
             admin_sync_items_path,
             method: :post,
             form: { data: { turbo_confirm: "This will sync all items from the API. Continue?" } },
+            class: "cursor-pointer px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-lol-teal-600/30" %>
+      </div>
+
+      <!-- Sync Summoner Spells -->
+      <div class="flex items-center justify-between p-4 bg-lol-blue-900/50 rounded-lg border border-lol-blue-700">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-200">Sync Summoner Spells</h3>
+          <p class="text-sm text-gray-400">Fetch all summoner spells from Data Dragon API (~15 spells)</p>
+          <p class="text-xs text-gray-400 mt-1">✓ This should be quick (< 30 seconds)</p>
+        </div>
+        <%= button_to "Sync Spells",
+            admin_sync_summoner_spells_path,
+            method: :post,
+            form: { data: { turbo_confirm: "This will sync all summoner spells from the API. Continue?" } },
             class: "cursor-pointer px-6 py-3 bg-lol-teal-600 hover:bg-lol-teal-500 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-lol-teal-600/30" %>
       </div>
     </div>
