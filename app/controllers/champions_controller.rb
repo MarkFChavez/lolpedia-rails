@@ -18,10 +18,9 @@ class ChampionsController < ApplicationController
           # No matches found
           render :index
         when 1
-          # Exactly one match - show it automatically
+          # Exactly one match - redirect to show page
           champion = matching_champions.first
-          @champion = champion.to_api_format
-          render :show
+          redirect_to champion_path(champion.champion_id)
         else
           # Multiple matches - let user choose
           @matching_champions = matching_champions.map do |champion|
@@ -39,10 +38,10 @@ class ChampionsController < ApplicationController
   end
 
   def show
-    # This action is only used when redirected from search with @champion set
-    unless @champion
-      redirect_to root_path, alert: "Please search for a champion."
-    end
+    champion = Champion.find_by!(champion_id: params[:id])
+    @champion = champion.to_api_format
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "Champion not found."
   end
 
   private
