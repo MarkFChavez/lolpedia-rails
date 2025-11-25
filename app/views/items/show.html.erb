@@ -64,9 +64,9 @@
       <!-- Full Description -->
       <% if @item['description'].present? %>
         <div class="bg-lol-blue-900/50 rounded-lg p-4 border border-lol-blue-700">
-          <p class="text-gray-300 leading-relaxed">
-            <%= raw @item['description'].gsub(/<br>/, '<br/>') %>
-          </p>
+          <div class="text-gray-300 leading-relaxed">
+            <%= parse_item_description(@item['description']) %>
+          </div>
         </div>
       <% end %>
     </div>
