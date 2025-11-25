@@ -26,7 +26,7 @@ class Item < ApplicationRecord
   # Search items by name (case-insensitive, partial match, chainable with scopes)
   def self.search(query)
     if query.present?
-      where("name LIKE ?", "%#{sanitize_sql_like(query)}%").order(:name)
+      where("name ILIKE ?", "%#{sanitize_sql_like(query)}%").order(:name)
     else
       all.order(:name)
     end
@@ -36,7 +36,7 @@ class Item < ApplicationRecord
   def self.by_tag(tag)
     scope = all
     if tag.present?
-      scope = scope.where("EXISTS (SELECT 1 FROM json_each(items.tags) WHERE json_each.value = ?)", tag)
+      scope = scope.where("EXISTS (SELECT 1 FROM json_array_elements_text(items.tags) AS tag_value WHERE tag_value = ?)", tag)
     end
     scope.order(:name)
   end
@@ -49,7 +49,7 @@ class Item < ApplicationRecord
 
     connection.select_values(
       sanitize_sql_array([
-        "SELECT DISTINCT json_each.value FROM items, json_each(items.tags) WHERE items.id IN (?) ORDER BY json_each.value",
+        "SELECT DISTINCT tag_value FROM items, json_array_elements_text(items.tags) AS tag_value WHERE items.id IN (?) ORDER BY tag_value",
         ids
       ])
     )

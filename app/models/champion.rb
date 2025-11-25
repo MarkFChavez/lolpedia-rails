@@ -22,12 +22,12 @@ class Champion < ApplicationRecord
     sanitized_query = "%#{sanitize_sql_like(query)}%"
 
     where(<<-SQL, sanitized_query, sanitized_query, sanitized_query)
-      name LIKE ?
-      OR json_extract(passive_data, '$.name') LIKE ?
+      name ILIKE ?
+      OR passive_data->>'name' ILIKE ?
       OR EXISTS (
         SELECT 1
-        FROM json_each(spells_data)
-        WHERE json_extract(json_each.value, '$.name') LIKE ?
+        FROM json_array_elements(spells_data) AS spell
+        WHERE spell->>'name' ILIKE ?
       )
     SQL
     .order(:name)
